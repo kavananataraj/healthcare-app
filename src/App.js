@@ -7,7 +7,7 @@ const patientsData = [
   { id: 2, name: "Alice Smith" },
   { id: 3, name: "Rahul Kumar" },
   { id: 4, name: "Sneha Reddy" },
-  { id: 5, name: "Arjun Patel"},
+  { id: 5, name: "Arjun Patel"}, 
 ];
 
 function App() {
@@ -79,10 +79,10 @@ function App() {
         {heartRate > 100 && (
         <div style={{
             background: "red",
-            color: "white",
-            padding: "10px",
-            borderRadius: "5px",
-            marginBottom: "10px",
+            color: "white", 
+            padding: "10px", 
+            borderRadius: "5px", 
+            marginBottom: "10px", 
           }}
         >
           ⚠️ Critical Alert: High Heart Rate
@@ -169,4 +169,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
