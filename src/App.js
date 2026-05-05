@@ -1,3 +1,4 @@
+import {io} from "socket.io-client";
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import "chart.js/auto";
@@ -15,29 +16,31 @@ function App() {
   const [bp, setBp] = useState("120/80");
   const [dataPoints, setDataPoints] = useState([]);
   const [search, setSearch] = useState("");
-  const [selectedPatient, setSelectedPatient] = useState(null);1
+  const [selectedPatient, setSelectedPatient] = useState(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newHR = Math.floor(Math.random() * 80) + 60;
+  const socket = io("http://localhost:5000");
 
-      // ✅ CORRECT BP LINE
-      const newBP = `${100 + Math.floor(Math.random() * 40)}/${60 + Math.floor(Math.random() * 30)}`;
+  socket.on("vitals", (data) => {
+    setHeartRate(data.heartRate);
+    setBp(data.bp);
+    setDataPoints((prev) => [...prev.slice(-9), data.heartRate]);
+  });
 
-      setHeartRate(newHR);
-      setBp(newBP);
+  return () => socket.disconnect();
+}, []);
 
-      if (newHR > 100) {
-        console.log("Critical condition");
-      }
-
-      setDataPoints((prev) => [...prev.slice(-9), newHR]);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const isCritical = heartRate > 100;
+  heartRate > 100 && (
+  <div style={{
+    background: "red",
+    color: "white",
+    padding: "10px",
+    marginBottom: "10px",
+    borderRadius: "5px"
+  }}>
+    ⚠️ Critical Alert: High Heart Rate
+  </div>
+)
 
   const chartData = {
     labels: dataPoints.map((_, i) => i + 1),
@@ -169,4 +172,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;  
