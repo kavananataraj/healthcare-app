@@ -19,9 +19,13 @@ function App() {
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   useEffect(() => {
-  const socket = io("http://localhost:5000");
+const socket = io("http://127.0.0.1:5000");
+socket.on("connect",()=>{
+  console.log("connected to backend");
+});
 
   socket.on("vitals", (data) => {
+    console.log("Received:",data);
     setHeartRate(data.heartRate);
     setBp(data.bp);
     setDataPoints((prev) => [...prev.slice(-9), data.heartRate]);
