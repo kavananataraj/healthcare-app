@@ -19,7 +19,7 @@ function App() {
   const [selectedPatient, setSelectedPatient] = useState(null);
 
   useEffect(() => {
-const socket = io("http://127.0.0.1:5000");
+const socket = io("https://healthcare-app-t25c.onrender.com");
 socket.on("connect",()=>{
   console.log("connected to backend");
 });
